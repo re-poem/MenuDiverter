@@ -1,0 +1,6 @@
+name: MenuDiverter
+version: '${project.version}'
+main: org.repoem.menudiverter.MenuDiverter
+api-version: '1.21'
+depend: [floodgate]
+authors: [RE_POEM]
