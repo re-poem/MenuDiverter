@@ -1,4 +1,4 @@
 commands:
-  - command: cd #指令名
+  - command: menu #指令名
     description: "菜单命令" #指令的注解
-    usage: /cd #指令的用法
+    usage: /menu #指令的用法

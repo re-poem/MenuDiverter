@@ -1,22 +1,38 @@
 package org.repoem.menudiverter;
 
-import org.bukkit.command.Command;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 import org.geysermc.floodgate.api.FloodgateApi;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 import static org.bukkit.Bukkit.getServer;
 
-public class MenuCommand extends Command {
+public class MenuCommand extends BukkitCommand {
 
     FloodgateApi fa;
+    CommandMap commandMap;
 
     protected MenuCommand(@NotNull String name, @NotNull String description, @NotNull String usageMessage, @NotNull List<String> aliases) {
         super(name, description, usageMessage, aliases);
         fa = FloodgateApi.getInstance();
+        registerCommand();
+    }
+
+    private void registerCommand() {
+        try {
+            final Field commandMapField = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+            commandMapField.setAccessible(true);
+            commandMap = (CommandMap) commandMapField.get(Bukkit.getServer());
+            commandMap.register("Menus", this);
+        } catch (SecurityException | IllegalAccessException | IllegalArgumentException | NoSuchFieldException exception) {
+            exception.printStackTrace();
+        }
     }
 
     @Override
