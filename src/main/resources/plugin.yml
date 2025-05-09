@@ -2,5 +2,11 @@ name: MenuDiverter
 version: '${project.version}'
 main: org.repoem.menudiverter.MenuDiverter
 api-version: '1.21'
-depend: [DeluxeMenus, GeyserMenu]
+depend: [DeluxeMenus, GeyserMenu, LuckPerms]
 authors: [RE_POEM]
+
+commands:
+  menudiverter:
+    description: MenuDiverter插件主命令
+    usage: /menudiverter
+    aliases: [ menud ]

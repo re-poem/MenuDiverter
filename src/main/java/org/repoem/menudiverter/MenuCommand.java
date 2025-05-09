@@ -40,7 +40,11 @@ public class MenuCommand extends BukkitCommand {
         if (command.equalsIgnoreCase(getName()) && (sender instanceof Player)) {
             Player player = (Player) sender;
             if (fa.isFloodgatePlayer(player.getUniqueId())) {
-                getServer().dispatchCommand(getServer().getConsoleSender(), "gmenu open " + player.getName() + " " + getName() + ".yml");
+                if (player.hasPermission("menudiverter.forcejava")) {
+                    getServer().dispatchCommand(getServer().getConsoleSender(), "dm open " + getName() + " " + player.getName());
+                } else {
+                    getServer().dispatchCommand(getServer().getConsoleSender(), "gmenu open " + player.getName() + " " + getName() + ".yml");
+                }
             } else {
                 getServer().dispatchCommand(getServer().getConsoleSender(), "dm open " + getName() + " " + player.getName());
             }

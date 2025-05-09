@@ -1,37 +1,39 @@
-MenuDiverter
----
-一个用于DeluxeMenus和GeyserMenu插件之间菜单命令分流的插件，检测到的玩家是java版就会弹出DeluxeMenus对应的箱子菜单，是基岩版就会弹出GeyserMenu的对应表单
+# MenuDiverter - 跨版本菜单分流插件
 
-以下是一个配置文件的示例
-```
+## 📌 核心功能
+- **智能分流**：自动检测玩家客户端版本
+    - Java版 → 触发 DeluxeMenus 的箱子菜单
+    - 基岩版 → 触发 GeyserMenu 的表单菜单（也可自己选择是否使用）
+- **无缝兼容**：统一管理两种菜单系统的命令入口
+- **依赖**：DeluxeMenus, GeyserMenu, LuckPerms
+## ⚙️ 配置指南
+```yaml
 commands:
-  - command: menu #指令名
-    description: "菜单命令" #指令的注解
-    usage: /menu #指令的用法提示信息
-  - command: menu1 #指令名
-    description: "菜单命令1" #指令的注解
-    usage: /menu1 #指令的用法提示信息
-  ......
+  - command: "指令名称"        # 必须与菜单ID一致
+    description: "功能描述"    # 指令提示文本
+    usage: "用法示例"         # 输入错误时的提示
 ```
-菜单指令直接绑定菜单名，在DeluxeMenus中体现为config配置文件内的配置，在GeyserMenu中体现为菜单的文件名（不带`.yml`后缀的那部分）。实质上，这就是使用这两个插件的命令时所使用的菜单参数。
-以下是一个例子：
+| 系统类型        | 对应关系              | 示例                      |
+|-------------|-------------------|-------------------------|
+| DeluxeMenus | `gui_menus`下的配置键名 | `gui_menus: {shop:...}` |
+| GeyserMenu  | 菜单文件名(无扩展名)       | `shop.yml` → "shop"     |
 
-在DeluxeMenus中，有一个这样的菜单：
-```
-gui_menus:
-  cd: 
-    file: cd.yml
-```
-同时在GeyserMenu中，有一个菜单，文件名是`cd.yml`。
+## ⚠️ 重要说明
 
-此时插件配置文件应该是这样：
-```
-commands:
-  - command: cd #指令名
-    description: "主菜单" #指令的注解
-    usage: /cd #指令的用法提示信息
-```
+###  重载限制
 
-***由于热重载需要玩家重进服务器才能获得最好效果（不重进只能够被执行，没有自动提示），并且实现比较麻烦，所以此插件不支持热重载，plugman不起效果。***
+- 🔴 **必须重启服务器生效**
+- 🔴 **不支持plugman热重载**
 
-推荐与[DM2GM](https://github.com/re-poem/DM2GM)搭配使用。
+### 最佳实践
+
+- ✅ **推荐配合 [DM2GM](https://github.com/re-poem/DM2GM) 使用**
+- ✅ **为每个命令添加清晰的usage说明**  
+
+## 🔗 命令
+
+基岩版可使用 `menudiverter change` 或 `menud change` 来自主决定是否使用基岩版菜单
+
+（使用此命令需要 `menudiverter.change` 权限，您可能需要提前在 `LuckPerms`的默认用户组添加这个权限）
+
+（原理实质上是玩家的 `menudiverter.forcejava` 权限，当基岩版玩家存在这个权限时，玩家打开的菜单被强制使用箱子菜单）
